@@ -20,6 +20,11 @@
     "fzaninotto/faker": "^1.9@dev",
     "lucatume/wp-browser": "dev-master"
   },
+  "autoload" : {
+    "psr-4": {
+        "WeDevs\\Dokan\\": "includes/"
+    }
+  },
   "scripts": {
     "phpcs": [
       "phpcs -p -s"
