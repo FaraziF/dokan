@@ -34,5 +34,7 @@ class WithdrawRequestAndUpdateCest
 		$I->checkOption(Locator::firstElement('//input[@name="item[]"]'));
         $I->selectOption('#bulk-action-selector-top','Approve');
         $I->click('Apply');
+        
+
     }
 }

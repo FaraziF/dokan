@@ -20,9 +20,9 @@ class VendorExploratoryTestingCest
     	$I->click('Products');
     		$I->waitForElementVisible('.dokan-product-listing-area', 30);
     		$I->checkError();
-    	$I->click('Orders');
-    		$I->waitForElementVisible('.dokan-orders-area', 30);
-    		$I->checkError();
+    	// $I->click('Orders');
+    	// 	$I->waitForElementVisible('.dokan-orders-area', 30);
+    	// 	$I->checkError();
     	$I->click('Coupons');
     		$I->waitForElementVisible('.dashboard-coupons-area', 30);
     		$I->checkError();

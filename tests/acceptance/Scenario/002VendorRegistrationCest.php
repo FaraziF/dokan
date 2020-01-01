@@ -28,7 +28,8 @@ class VendorRegistrationCest
       $I->click(Vendor::$registrationButton);
       // $I->grabTextFrom(Vendor::$welcomeMessage, 'Welcome to the Marketplace!');
       $I->click(Vendor::$ignoreWizard);
-      // $I->seeInCurrentUrl('/dashboard');
+      $I->wait(5);
+      $I->seeInCurrentUrl('/dashboard');
     }
 }
 

@@ -15,6 +15,7 @@ class AddNewProductCest
       $I->loginAsVendor();
       // $vendor->login('vendor','vendor');
       $product->create('Green Watch','250','Uncategorized');
+      $I->waitForText('Edit Product', 30);
 
     }
 }
