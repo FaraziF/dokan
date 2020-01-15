@@ -1,8 +1,5 @@
 <?php
 
-use WeDevs\Dokan\Walkers\CategoryDropdownSingle;
-use WeDevs\Dokan\Walkers\TaxonomyDropdown;
-
 global $post;
 
 $from_shortcode = false;
@@ -61,7 +58,7 @@ if ( ! $from_shortcode ) {
 }
 
 if ( ! empty( $_GET['errors'] ) ) {
-    dokan()->dashboard->templates->products::$errors = array_map( 'sanitize_text_field', wp_unslash( $_GET['errors'] ) );
+    Dokan_Template_Products::$errors = array_map( 'sanitize_text_field', wp_unslash( $_GET['errors'] ) );
 }
 
 /**
@@ -122,11 +119,11 @@ do_action( 'dokan_dashboard_wrap_before', $post, $post_id );
             </header><!-- .entry-header -->
 
             <div class="product-edit-new-container product-edit-container">
-                <?php if ( dokan()->dashboard->templates->products::$errors ) { ?>
+                <?php if ( Dokan_Template_Products::$errors ) { ?>
                     <div class="dokan-alert dokan-alert-danger">
                         <a class="dokan-close" data-dismiss="alert">&times;</a>
 
-                        <?php foreach ( dokan()->dashboard->templates->products::$errors as $error) { ?>
+                        <?php foreach ( Dokan_Template_Products::$errors as $error) { ?>
                             <strong><?php esc_html_e( 'Error!', 'dokan-lite' ); ?></strong> <?php echo esc_html( $error ) ?>.<br>
                         <?php } ?>
                     </div>
@@ -273,7 +270,7 @@ do_action( 'dokan_dashboard_wrap_before', $post, $post_id );
                                                 'class'            => 'product_cat dokan-form-control dokan-select2',
                                                 'exclude'          => '',
                                                 'selected'         => $product_cat,
-                                                'walker'           => new CategoryDropdownSingle( $post_id )
+                                                'walker'           => new DokanCategoryWalker( $post_id )
                                             );
 
                                             wp_dropdown_categories( apply_filters( 'dokan_product_cat_dropdown_args', $category_args ) );
@@ -301,7 +298,7 @@ do_action( 'dokan_dashboard_wrap_before', $post, $post_id );
                                                 'exclude'          => '',
                                                 'selected'         => $term,
                                                 'echo'             => 0,
-                                                'walker'           => new TaxonomyDropdown( $post_id )
+                                                'walker'           => new DokanTaxonomyWalker( $post_id )
                                             ) ) );
 
                                             echo str_replace( '<select', '<select data-placeholder="' . esc_html__( 'Select product category', 'dokan-lite' ) . '" multiple="multiple" ', $drop_down_category ); // phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
@@ -327,7 +324,7 @@ do_action( 'dokan_dashboard_wrap_before', $post, $post_id );
                                             'exclude'          => '',
                                             'selected'         => $selected,
                                             'echo'             => 0,
-                                            'walker'           => new TaxonomyDropdown( $post_id )
+                                            'walker'           => new DokanTaxonomyWalker( $post_id )
                                         ) );
 
                                         echo str_replace( '<select', '<select data-placeholder="' . esc_html__( 'Select product tags', 'dokan-lite' ) . '" multiple="multiple" ', $drop_down_tags ); // phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped

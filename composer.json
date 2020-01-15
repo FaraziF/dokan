@@ -7,7 +7,6 @@
     {
       "name": "weDevs",
       "email": "info@wedevs.com"
-
     }
   ],
   "minimum-stability": "dev",
@@ -16,14 +15,7 @@
   },
   "require-dev": {
     "wp-coding-standards/wpcs": "dev-master",
-    "dealerdirect/phpcodesniffer-composer-installer": "^0.4.3",
-    "fzaninotto/faker": "^1.9@dev",
-    "lucatume/wp-browser": "dev-master"
-  },
-  "autoload" : {
-    "psr-4": {
-        "WeDevs\\Dokan\\": "includes/"
-    }
+    "dealerdirect/phpcodesniffer-composer-installer": "^0.4.3"
   },
   "scripts": {
     "phpcs": [
