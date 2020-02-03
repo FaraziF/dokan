@@ -9,7 +9,8 @@ class GlobalFlatCommissionCest
     }
 
     // tests
-    public function setCommission(\Step\Acceptance\Login $I, \Step\Acceptance\Commissions $Admin)
+    public function setCommission(\Step\Acceptance\MultiSteps $I, 
+                                  \Step\Acceptance\Commissions $Admin)
     {
     	$I->loginAsAdmin();
     	$Admin->chooseGlobalCommission();
@@ -23,11 +24,11 @@ class GlobalFlatCommissionCest
         // $I->click('#dokan_selling #submit');
     }
     //Customer add to cart single order
-    public function singleOrder(AcceptanceTester $I,
-                                \Step\Acceptance\Login $customer,
+    public function singleOrder(\Step\Acceptance\MultiSteps $I,
                                 \Step\Acceptance\Order $customerSingle)
     {
-      $customer->loginAsCustomer();
+      // $customer->loginAsCustomer();
+      $I->loginAsCustomer();
       $I->amOnPage('store-listing/');
       $I->click('//div[@id="dokan-seller-listing-wrap"]/div/ul/li/div/div[2]/a');
       $I->click('//div[@id="dokan-content"]/div[4]/ul/li/a/img');

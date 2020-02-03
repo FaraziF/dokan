@@ -13,6 +13,7 @@ extensions:
             0: java -jar selenium-server.jar
             1: mailcatcher
             sleep: 5
+            # start: false
 step_decorators:
   - \Codeception\Step\Retry
   - \Codeception\Step\TryTo
@@ -49,6 +50,7 @@ modules:
             window_size: false
             port: 4444
             log_js_errors: true
+
             # wait: 5         #it's using for smart wait
             # capabilities:
             #     browserName: chrome

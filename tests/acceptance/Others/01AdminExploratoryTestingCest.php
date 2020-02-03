@@ -20,6 +20,7 @@ class AdminExploratoryTestingCest
             $I->checkError();
         // Activate all modules
             $I->click('#view-switch-list');
+            $I->wait(5);
             $I->click('//input[@type="checkbox"]');
             $I->selectOption('#bulk-action-selector-top','Activate');
             $I->click('Apply');

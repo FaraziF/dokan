@@ -20,10 +20,11 @@ class VendorSubscriptionCest
         $I->seeCheckboxIsChecked('#dokan_product_subscription[enable_subscription_pack_in_reg]');
         $I->seeCheckboxIsChecked('#dokan_product_subscription[notify_by_email]');
         $I->fillField('//*[@id="dokan_product_subscription[no_of_days_before_mail]"]','5');
-        $I->selectOption('dokan_product_subscription[product_status_after_end]','Published');
+        $I->selectOption('dokan_product_subscription[product_status_after_end]','Pending Review');
         $I->wait(5);
         // $I->waitForElement('//div[18]/form/p/input',30);
         $I->click(['css' => '#dokan_product_subscription #submit']);
+        $I->see('#setting-message_updated', 'Setting has been saved successfully.');
         // $I->click('Save Changes');
         $I->wait(3);
         $I->click('Products');
@@ -45,10 +46,20 @@ class VendorSubscriptionCest
         $I->click(['name' => 'publish']);
         $I->wait(3);
     }
-    public function vendorBuySubscription(\Step\Acceptance\Login $I ,\Page\Acceptance\AccountPage $vendor,\Page\Acceptance\ProductPage $product)
+
+    public function vendorBuySubscription(\Step\Acceptance\MultiSteps $I, 
+                                            \Page\Acceptance\AccountPage $vendor, 
+                                                \Page\Acceptance\ProductPage $product)
     {
         $I->loginAsVendor();
         $I->click('Products');
+        
+        // Check vendor have subscription or not 
+        // if ($I->tryToDontSeeLink('update your package'))
+        // {
+        //     $I->see('Add new product');
+        //     // $I->closeBrowser();
+        // }
         $I->seeLink('update your package');
         $I->click(['css' => '.dokan-info > a']);
         $I->wait(5);
@@ -58,6 +69,7 @@ class VendorSubscriptionCest
         $I->click('//*[@id="place_order"]');
         $I->dontSee('.woocommerce-NoticeGroup.woocommerce-NoticeGroup-checkout');
         $I->wait(5);
+
         ///Admin Approver Vendor Subscription Request
         $AdminApprove = $I->haveFriend('AdminApprove');
         $AdminApprove->does(function(AcceptanceTester $I){

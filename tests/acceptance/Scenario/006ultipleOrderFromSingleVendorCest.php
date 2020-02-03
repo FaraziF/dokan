@@ -23,10 +23,10 @@ class MultipleOrderFromSingleVendorCest
       $I->loginAsVendor();
       $vendor->updateOrderStatus();
     }
-
+/*
     //TESTING DYNAMIC DATA WITH SNAPSHOTS https://codeception.com/docs/09-Data
     public function productsAreSame(\Step\Acceptance\MultiSteps $I,  
-                        \Step\Acceptance\Vendor $vendor, \Snapshot\Products $snapshot)
+                        \Step\Acceptance\Vendor $vendor, \Snapshot\Acceptance\Products $snapshot)
     {
         $I->loginAsAdmin();
         // $I->amOnPage('/wp-admin/admin.php?page=dokan#/reports?tab=logs');
@@ -43,4 +43,5 @@ class MultipleOrderFromSingleVendorCest
         // to update data in snapshot run test with --debug flag
         $snapshot->assert();
     }
+*/
 }
