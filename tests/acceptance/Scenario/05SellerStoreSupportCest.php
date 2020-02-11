@@ -14,7 +14,10 @@ class SellerStoreSupportCest
       $I->click('Settings');
       $I->click('Store');
       $I->wait(3);
-      $I->checkOption('#support_checkbox');
+      if ($I->tryToSeeCheckboxIsChecked('#support_checkbox'))
+            {
+                $I->checkOption('#support_checkbox');
+            }
       $I->scrollTo('#dokan_support_btn_name',20,40);
       $I->fillfield('#dokan_support_btn_name','Want to need support');
       $I->click('Update Settings');
@@ -22,11 +25,10 @@ class SellerStoreSupportCest
        $CustomerView = $I->haveFriend('CustomerView');
         $CustomerView->does(function(AcceptanceTester $I){
             $I->loginAsCustomer();
-            $I->click('Store List');
-            $I->wait(2);
-            $I->click('//div[@id="dokan-seller-listing-wrap"]/div/ul/li/div/div[2]/a');
+            $I->amonpage('/store-listing/');
+            $I->click(['css'=>'.dokan-single-seller:nth-child(1) .dashicons']);
+            $I->scrollTo('#primary', 100,600);
             $I->wait(5);
-           // $I->scrollTo('Want to need support',30,40);
             $I->click('Want to need support');
             $I->wait(5);
             $I->fillfield('#dokan-support-subject','need support');

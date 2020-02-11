@@ -7,7 +7,7 @@ class VendorSubscriptionCest
     {
     }
 
-	 //Admin create vendor package
+	 // //Admin create vendor package
     public function createSubscriptionPackage(\Step\Acceptance\Login $I)
     {
         $I->loginAsAdmin();
@@ -16,21 +16,34 @@ class VendorSubscriptionCest
         $I->click('Settings');
         $I->wait(3);
         $I->click('Product Subscription');
-        $I->seeCheckboxIsChecked('dokan_product_subscription[enable_pricing]');
-        $I->seeCheckboxIsChecked('#dokan_product_subscription[enable_subscription_pack_in_reg]');
-        $I->seeCheckboxIsChecked('#dokan_product_subscription[notify_by_email]');
-        $I->fillField('//*[@id="dokan_product_subscription[no_of_days_before_mail]"]','5');
+         if ($I->tryToSeeCheckboxIsChecked('#dokan_product_subscription[enable_pricing]'))
+            {
+                $I->checkOption('#dokan_product_subscription[enable_pricing]');
+            }
+
+         if ($I->tryToSeeCheckboxIsChecked('#dokan_product_subscription[enable_subscription_pack_in_reg]'))
+            {
+                $I->checkOption('#dokan_product_subscription[enable_subscription_pack_in_reg]');
+            }
+
+
+         if ($I->tryToSeeCheckboxIsChecked('#dokan_product_subscription[notify_by_email]'))
+            {
+                $I->checkOption('#dokan_product_subscription[notify_by_email]');
+            }
+
+          $I->wait(3);
+         
+
+         $I->fillField('//*[@id="dokan_product_subscription[no_of_days_before_mail]"]','5');
         $I->selectOption('dokan_product_subscription[product_status_after_end]','Pending Review');
-        $I->wait(5);
-        // $I->waitForElement('//div[18]/form/p/input',30);
         $I->click(['css' => '#dokan_product_subscription #submit']);
-        $I->see('#setting-message_updated', 'Setting has been saved successfully.');
-        // $I->click('Save Changes');
+        $I->waitForElementVisible('#setting-message_updated', 5);
         $I->wait(3);
         $I->click('Products');
         $I->wait(3);
-        $I->click('//div[3]/a');
-        $I->wait(2);
+        $I->click(['link'=>'Add New']);
+        $I->wait(3);
         $I->fillField('#title','Bronze Subscription Pack');
         $I->selectOption('#product-type','Dokan Subscription');
         $I->fillField('_regular_price','400');
@@ -55,11 +68,11 @@ class VendorSubscriptionCest
         $I->click('Products');
         
         // Check vendor have subscription or not 
-        // if ($I->tryToDontSeeLink('update your package'))
-        // {
-        //     $I->see('Add new product');
-        //     // $I->closeBrowser();
-        // }
+        if ($I->tryToDontSeeLink('update your package'))
+        {
+            $I->see('Add new product');
+            // $I->closeBrowser();
+        }
         $I->seeLink('update your package');
         $I->click(['css' => '.dokan-info > a']);
         $I->wait(5);
@@ -85,8 +98,8 @@ class VendorSubscriptionCest
         $I->click('Products');
         $product->create('Red Shoe','1500','Uncategorized');
         $I->wait(5);
+     }
     }
-}
 
 /*
 Scenario required:
@@ -94,14 +107,3 @@ Scenario required:
     -Need to write more scennario about vendor request warranty fro subscription
     -
 */
-
-
-
-
-
-
-
-
-
-
-
