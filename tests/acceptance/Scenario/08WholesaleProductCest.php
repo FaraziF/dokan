@@ -22,12 +22,16 @@ class WholesaleProductCest
       
       //Display wholesale price to all users
       $I->selectOption('#dokan_wholesale[wholesale_price_display][all_user]', 'Display wholesale price to all users');
-      $I->seeCheckboxIsChecked('#dokan_wholesale[display_price_in_shop_archieve]');
-      $I->click('//div[19]/form/p/input');
-      $I->waitForElementVisible('#setting-message_updated', 5);
+      if ($I->tryToSeeCheckboxIsChecked('#dokan_wholesale[display_price_in_shop_archieve]'))
+            {
+                $I->checkOption('#dokan_wholesale[display_price_in_shop_archieve]');
+            }
+     
+      $I->click(['css' => '#dokan_wholesale #submit']);
+        $I->waitForElementVisible('#setting-message_updated', 5);
 
       $CustomerView = $I->haveFriend('CustomerView');
-        $CustomerView->does(function(AcceptanceTester $I){
+      $CustomerView->does(function(AcceptanceTester $I){
             $I->loginAsVendor();
               $I->addProduct();
               $I->wait(5);
@@ -37,14 +41,13 @@ class WholesaleProductCest
               $I->fillField('#dokan-wholesale-qty', 5);
               $I->click('Save Product');
               $I->waitForElementVisible('.dokan-message', 5);
-            $I->click('Log out');
-            // $I->click('Log in');
-            $I->loginAsCustomer();
-            $I->amOnPage('/shop/');
-            $I->selectOption('//select[@name="orderby"]','Sort by latest');
-            $I->click('//main[@id="main"]/ul/li/a/img');
-            $I->placeOrder();
-            $I->wait(5);
+              $I->click('Log out');
+              $I->loginAsCustomer();
+              $I->amOnPage('/shop/');
+              $I->selectOption('//select[@name="orderby"]','Sort by latest');
+              $I->click('//main[@id="main"]/ul/li/a/img');
+              $I->placeOrder();
+              $I->wait(5);
        });
         $CustomerView->leave();
     }
@@ -55,7 +58,8 @@ class WholesaleProductCest
        //Display wholesale price to Wholesale customer only
         $I->selectOption('#dokan_wholesale[wholesale_price_display][wholesale_customer]', 'Display wholesale price to Wholesale customer only');
         $I->selectOption('#dokan_wholesale[need_approval_for_wholesale_customer]', 'Yes');
-        $I->click('//div[19]/form/p/input');
+        
+        $I->click(['css' => '#dokan_wholesale #submit']);
         $I->waitForElementVisible('#setting-message_updated', 5);
 
           $CustomerView = $I->haveFriend('CustomerView');
@@ -88,7 +92,6 @@ class WholesaleProductCest
                   $I->wait(5);
                   $I->click('//main[@id="main"]/ul/li/a/img');
                   $I->fillField('//div[2]/form/div/input', '5');
-                  // $I->click('Add to cart');
                   $I->placeOrder();
 
              });
