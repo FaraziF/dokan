@@ -66,19 +66,23 @@ class MultiSteps extends \AcceptanceTester
 	public function viewMultipleProduct()
 	{
 		$I = $this;
-		$I->amOnPage('store-listing/');
-			$I->click(['css' => '.dokan-single-seller:nth-child(1) .store-content a']);
-			$I->click('//li[2]/a/img');
-			$I->click('Add to cart');
-			$I->waitForElementVisible('.woocommerce-notices-wrapper', 30);
-		$I->amOnPage('store-listing/');
-			$I->click(['css' => '.dokan-single-seller:nth-child(1) .store-content a']);
-			$I->click('//li[2]/a/img');
+		$I->click('Shop');
+        $I->selectOption('//select[@name="orderby"]','Sort by latest');
+        $I->wait(5);
+        $I->click('//main[@id="main"]/ul/li/a/img');
+		// $I->amOnPage('store-listing/');
+		// 	$I->click(['css' => '.dokan-single-seller:nth-child(1) .store-content a']);
+		// 	$I->click('//li[2]/a/img');
+		// 	$I->click('Add to cart');
+		// 	$I->waitForElementVisible('.woocommerce-notices-wrapper', 30);
+		// $I->amOnPage('store-listing/');
+		// 	$I->click(['css' => '.dokan-single-seller:nth-child(1) .store-content a']);
+		// 	$I->click('//li[2]/a/img');
 			$I->click('Add to cart');
 			$I->waitForElementVisible('.woocommerce-notices-wrapper', 30);
 	}
 	public function viewMultipleVendorMultipleProduct()
-	{
+	{    
 		$I = $this;
 		$I->amOnPage('store-listing/');
 			$I->click(['css' => '.dokan-single-seller:nth-child(1) .store-content a']);
@@ -88,6 +92,10 @@ class MultiSteps extends \AcceptanceTester
 			$I->click(['css' => '.dokan-single-seller:nth-child(2) .store-content a']);
 			$I->click('//li[2]/a/img');
 			$I->click('Add to cart');
+		// $I->amOnPage('store-listing/');
+		// 	$I->click(['css' => '.dokan-single-seller:nth-child(2) .store-content a']);
+		// 	$I->click('//li[2]/a/img');
+		// 	$I->click('Add to cart');
       	// $I->click('Add to cart');
 	}
 	public function placeOrder()
@@ -108,6 +116,7 @@ class MultiSteps extends \AcceptanceTester
 		$I->wait(5);
 		$I->click('//div[@id="payment"]/div/button');
 		$I->waitForText('Thank you. Your order has been received.', 30, '.woocommerce-order');
+		$I->see('Thank you. Your order has been received.');
 
 		// $I->click('//div[@id="payment"]/div/button', 'Place order');
 		// $I->wait(10);
