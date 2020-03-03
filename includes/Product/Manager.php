@@ -39,7 +39,7 @@ class Manager {
     /**
      * Get single product
      *
-     * @since DOKAN_LITE_SINCE
+     * @since 3.0.0
      *
      * @return wc_get_product OBJECT
      */
@@ -50,7 +50,7 @@ class Manager {
     /**
      * Save Product
      *
-     * @since DOKAN_LITE_SINCE
+     * @since 3.0.0
      *
      * @return product object | wc_get_product
      */
@@ -336,7 +336,7 @@ class Manager {
         }
 
         // Set featured image id
-        if ( isset( $args['featured_image_id'] ) ) {
+        if ( ! empty( $args['featured_image_id'] ) ) {
             $product->set_image_id( $args['featured_image_id'] );
         }
 
@@ -381,7 +381,7 @@ class Manager {
     /**
      * Update product data
      *
-     * @since DOKAN_LITE_SINCE
+     * @since 3.0.0
      *
      * @return wc_get_product OBJECT
      */
@@ -398,7 +398,7 @@ class Manager {
     /**
      * Delete product data
      *
-     * @since DOKAN_LITE_SINCE
+     * @since 3.0.0
      *
      * @return void
      */

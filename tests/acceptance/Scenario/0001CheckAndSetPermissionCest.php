@@ -36,7 +36,7 @@ class checkPermmissionCest
         // Select commission type and insert admin commission
             $I->click(['link' => 'Selling Options']);
             $I->selectOption('#dokan_selling[commission_type]', 'Flat');
-            $I->fillField('#dokan_selling[admin_percentage]', '15');
+            $I->fillField('#dokan_selling[admin_percentage]', '20');
         // Check vendor capability and enable new vendor add product, Vendor can change order status And New Product status published
             if ($I->tryToDontSeeCheckboxIsChecked('#dokan_selling[new_seller_enable_selling]'))
             {
