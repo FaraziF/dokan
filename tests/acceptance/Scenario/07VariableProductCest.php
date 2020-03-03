@@ -23,6 +23,7 @@ class VariableProductCest
        $I->wait(3);
        $I->fillfield('attribute_names[0]','colour');
        $I->pressKey('//li/div[2]/div[2]/span/span/span/ul/li/input', 'orange', WebDriverKeys::ENTER);
+       // $I->pressKey(['css' => '.dokan-product-attribute-item .select2-search__field'], WebDriverKeys::ENTER);
        $I->pressKey('//li/div[2]/div[2]/span/span/span/ul/li/input','green', WebDriverKeys::ENTER);
        $I->checkOption('attribute_visibility[0]');
        $I->checkOption('attribute_variation[0]');
