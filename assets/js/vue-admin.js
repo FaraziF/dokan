@@ -4602,7 +4602,7 @@ var Currency = dokan_get_lib('Currency');
         }
       }, {
         "title": "WC Booking Integration",
-        "url": "https:\/\/wedevs.com\/dokan\/modules\/woocommerce-booking-integration\/",
+        "url": "https:\/\/wedevs.com\/dokan\/extensions\/woocommerce-booking-integration\/",
         "starter": {
           "type": "icon",
           "value": dokan.urls.assetsUrl + '/images/premium/unavailable@2x.png'
