@@ -24,7 +24,7 @@
 
             <div class="metabox-holder">
                 <template v-for="(fields, index) in settingFields" v-if="isLoaded">
-                    <div :id="index" class="group" v-show="currentTab===index">
+                    <div :id="index" class="group" v-if="currentTab === index">
                         <form method="post" action="options.php">
                             <input type="hidden" name="option_page" :value="index">
                             <input type="hidden" name="action" value="update">
@@ -37,7 +37,8 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <fields v-for="(field, fieldId) in fields"
+                                    <Fields
+                                        v-for="(field, fieldId) in fields"
                                         :section-id="index"
                                         :id="fieldId"
                                         :field-data="field"
@@ -45,7 +46,8 @@
                                         :all-settings-values="settingValues"
                                         @openMedia="showMedia"
                                         :key="fieldId"
-                                    ></fields>
+                                        :errors="errors"
+                                    />
                                 </tbody>
                             </table>
                             <p class="submit"><input type="submit" name="submit" id="submit" class="button button-primary" value="Save Changes" @click.prevent="saveSettings( settingValues[index], index )"></p>
@@ -85,7 +87,29 @@
                 currentTab: null,
                 settingSections: [],
                 settingFields: {},
-                settingValues: {}
+                settingValues: {},
+                requiredFields: [],
+                errors: []
+            }
+        },
+
+        computed: {
+            refreshable_props() {
+                const props = {};
+                let sectionId;
+
+                for ( sectionId in this.settingFields ) {
+                    let sectionFields = this.settingFields[ sectionId ];
+                    let optionId;
+
+                    for ( optionId in sectionFields ) {
+                        if ( sectionFields[ optionId ].refresh_after_save ) {
+                            props[ `${sectionId}.${optionId}` ] = true;
+                        }
+                    }
+                }
+
+                return props;
             }
         },
 
@@ -93,6 +117,7 @@
             changeTab( section ) {
                 var activetab = '';
                 this.currentTab = section.id;
+                this.requiredFields = [];
 
                 if ( typeof( localStorage ) != 'undefined' ) {
                     localStorage.setItem( "activetab", this.currentTab );
@@ -166,6 +191,10 @@
             },
 
             saveSettings( fieldData, section ) {
+                if ( ! this.formIsValid( section ) ) {
+                    return;
+                }
+
                 var self = this,
                     data = {
                         action : 'dokan_save_settings',
@@ -185,6 +214,17 @@
                         self.message = response.data.message;
 
                         self.settingValues[ settings.name ] = settings.value;
+
+                        let option;
+
+                        for ( option in fieldData ) {
+                            const fieldName = `${section}.${option}`;
+
+                            if ( self.refreshable_props[ fieldName ] ) {
+                                window.location.reload();
+                                break;
+                            }
+                        }
                     } )
                     .fail( function ( jqXHR ) {
                         var messages = jqXHR.responseJSON.data.map( function ( error ) {
@@ -196,6 +236,73 @@
                     .always( function () {
                         self.showLoading = false;
                     } );
+            },
+
+            formIsValid( section ) {
+                let allFields = Object.keys( this.settingFields );
+                let requiredFields = this.requiredFields;
+
+                if ( ! allFields ) {
+                    return false;
+                }
+
+                allFields.forEach( ( fields, index ) => {
+                    if ( section === fields ) {
+                        let sectionFields = this.settingFields[fields];
+
+                        Object.values(sectionFields).forEach( ( field ) => {
+                            let subFields = field.fields;
+
+                            if ( subFields ) {
+                                Object.values( subFields ).forEach( ( subField ) => {
+                                    if (
+                                        subField
+                                        && subField.required
+                                        && subField.required === 'yes'
+                                        && !requiredFields.includes( subField.name ) ) {
+                                        requiredFields.push(subField.name);
+                                    }
+                                } );
+                            }
+
+                            if ( field && field.required && field.required === 'yes' ) {
+                                if ( ! requiredFields.includes( field.name ) ) {
+                                    requiredFields.push(field.name);
+                                }
+                            }
+                        } );
+                    }
+                });
+
+                // empty the errors array on new form submit
+                this.errors = [];
+                requiredFields.forEach( ( field ) => {
+                    Object.values( this.settingValues ).forEach( ( value ) => {
+                        if ( field in value && value[field].length < 1 ) {
+                            if ( ! this.errors.includes( field ) ) {
+                                this.errors.push( field );
+
+                                // If flat or percentage commission is set. Remove the required field.
+                                if ( 'flat' === value['commission_type'] || 'percentage' === value['commission_type'] ) {
+                                    this.errors = this.arrayRemove( this.errors, 'admin_percentage' );
+                                    this.errors = this.arrayRemove( this.errors, 'additional_fee' );
+                                }
+                            }
+                        }
+                    } );
+                } );
+
+                if ( this.errors.length < 1 ) {
+                    return true;
+                }
+
+                return false;
+            },
+
+            arrayRemove( array, value ) {
+               return array.filter( ( element ) => {
+                   return element !== value;
+               });
             }
         },
 

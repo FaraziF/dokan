@@ -20,6 +20,7 @@ var entryPoint = {
     'vue-bootstrap': './src/utils/Bootstrap.js',
     'vue-vendor': vueVendor,
     'dokan-wp': './src/wp-packages/index.js',
+    'dokan-upgrade': './src/upgrade/main.js',
     // style: './less/style.less',
 };
 
@@ -121,11 +122,18 @@ module.exports = {
         rules: [
             {
                 test: /\.js$/,
-                exclude: /(node_modules|bower_components)/,
-                loader: 'babel-loader',
-                query: {
-                    presets: ['es2015']
-                }
+                exclude: /node_modules/,
+                use: [
+                    {
+                        loader: require.resolve( 'babel-loader' ),
+                        options: {
+                            // Babel uses a directory within local node_modules
+                            // by default. Use the environment variable option
+                            // to enable more persistent caching.
+                            cacheDirectory: process.env.BABEL_CACHE_DIRECTORY || true,
+                        },
+                    },
+                ],
             },
             {
                 test: /\.vue$/,

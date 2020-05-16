@@ -49,7 +49,6 @@ $hide_customer_info = dokan_get_option( 'hide_customer_info', 'dokan_selling', '
                                                 switch ( $item['type'] ) {
                                                     case 'line_item' :
                                                         $_product   = $order->get_product_from_item( $item );
-
                                                         dokan_get_template_part( 'orders/order-item-html', '', array(
                                                             'order'    => $order,
                                                             'item_id'  => $item_id,
@@ -65,7 +64,7 @@ $hide_customer_info = dokan_get_option( 'hide_customer_info', 'dokan_selling', '
                                                     break;
                                                 }
 
-                                                do_action( 'woocommerce_order_item_' . $item['type'] . '_html', $item_id, $item );
+                                                do_action( 'woocommerce_order_item_' . $item['type'] . '_html', $item_id, $item, $order );
 
                                             }
                                         ?>
@@ -128,7 +127,7 @@ $hide_customer_info = dokan_get_option( 'hide_customer_info', 'dokan_selling', '
                             if ( $order->get_formatted_billing_address() ) {
                                 echo wp_kses_post( $order->get_formatted_billing_address() );
                             } else {
-                                _e( 'No billing address set.', 'dokan-lite' );
+                                esc_html_e( 'No billing address set.', 'dokan-lite' );
                             }
                         ?>
                     </div>
@@ -143,7 +142,7 @@ $hide_customer_info = dokan_get_option( 'hide_customer_info', 'dokan_selling', '
                             if ( $order->get_formatted_shipping_address() ) {
                                 echo wp_kses_post( $order->get_formatted_shipping_address() );
                             } else {
-                                _e( 'No shipping address set.', 'dokan-lite' );
+                                esc_html_e( 'No shipping address set.', 'dokan-lite' );
                             }
                         ?>
                     </div>
@@ -206,6 +205,10 @@ $hide_customer_info = dokan_get_option( 'hide_customer_info', 'dokan_selling', '
                                 <span><?php esc_html_e( 'Order Date:', 'dokan-lite' ); ?></span>
                                 <?php echo esc_html( dokan_get_date_created( $order ) ); ?>
                             </li>
+                            <li class="earning-from-order">
+                                <span><?php esc_html_e( 'Earning From Order:', 'dokan-lite' ); ?></span>
+                                <?php echo wp_kses_post( wc_price( dokan()->commission->get_earning_by_order( $order ) ) ); ?>
+                            </li>
                         </ul>
                         <?php if ( 'off' === $hide_customer_info && ( $order->get_formatted_billing_address() || $order->get_formatted_shipping_address() ) ) : ?>
                         <ul class="list-unstyled customer-details">
@@ -234,6 +237,8 @@ $hide_customer_info = dokan_get_option( 'hide_customer_info', 'dokan_selling', '
                                 <span><?php esc_html_e( 'Customer IP:', 'dokan-lite' ); ?></span>
                                 <?php echo esc_html( get_post_meta( dokan_get_prop( $order, 'id' ), '_customer_ip_address', true ) ); ?>
                             </li>
+
+                            <?php do_action( 'dokan_order_details_after_customer_info', $order ); ?>
                         </ul>
                         <?php endif; ?>
                         <?php

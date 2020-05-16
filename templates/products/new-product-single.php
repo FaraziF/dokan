@@ -1,5 +1,8 @@
 <?php
 
+use WeDevs\Dokan\Walkers\CategoryDropdownSingle;
+use WeDevs\Dokan\Walkers\TaxonomyDropdown;
+
 global $post;
 
 $from_shortcode = false;
@@ -58,7 +61,7 @@ if ( ! $from_shortcode ) {
 }
 
 if ( ! empty( $_GET['errors'] ) ) {
-    Dokan_Template_Products::$errors = $_GET['errors'];
+    dokan()->dashboard->templates->products->set_errors( array_map( 'sanitize_text_field', wp_unslash( $_GET['errors'] ) ) );
 }
 
 /**
@@ -119,11 +122,11 @@ do_action( 'dokan_dashboard_wrap_before', $post, $post_id );
             </header><!-- .entry-header -->
 
             <div class="product-edit-new-container product-edit-container">
-                <?php if ( Dokan_Template_Products::$errors ) { ?>
+                <?php if ( dokan()->dashboard->templates->products->has_errors() ) { ?>
                     <div class="dokan-alert dokan-alert-danger">
                         <a class="dokan-close" data-dismiss="alert">&times;</a>
 
-                        <?php foreach ( Dokan_Template_Products::$errors as $error) { ?>
+                        <?php foreach ( dokan()->dashboard->templates->products->get_errors() as $error ) { ?>
                             <strong><?php esc_html_e( 'Error!', 'dokan-lite' ); ?></strong> <?php echo esc_html( $error ) ?>.<br>
                         <?php } ?>
                     </div>
@@ -190,7 +193,16 @@ do_action( 'dokan_dashboard_wrap_before', $post, $post_id );
 
                                             <div class="content-half-part regular-price">
                                                 <label for="_regular_price" class="form-label"><?php esc_html_e( 'Price', 'dokan-lite' ); ?>
-                                                    <span class="vendor-earning" data-commission="<?php echo esc_attr( dokan_get_seller_percentage( dokan_get_current_user_id(), $post_id ) ); ?>" data-commission_type="<?php echo esc_attr( dokan_get_commission_type( dokan_get_current_user_id(), $post_id ) ); ?>">( <?php esc_html_e( ' You Earn : ', 'dokan-lite' ) ?><?php echo esc_html( get_woocommerce_currency_symbol() ); ?><span class="vendor-price">0.00</span> )</span>
+                                                    <span
+                                                        class="vendor-earning simple-product"
+                                                        data-commission="<?php echo esc_attr( dokan()->commission->get_earning_by_product( $post_id ) ); ?>"
+                                                        data-product-id="<?php echo esc_attr( $post_id ); ?>">
+                                                            ( <?php esc_html_e( ' You Earn : ', 'dokan-lite' ) ?><?php echo esc_html( get_woocommerce_currency_symbol() ); ?>
+                                                                <span class="vendor-price">
+                                                                    <?php echo esc_attr( dokan()->commission->get_earning_by_product( $post_id ) ); ?>
+                                                                </span>
+                                                            )
+                                                    </span>
                                                 </label>
                                                 <div class="dokan-input-group">
                                                     <span class="dokan-input-group-addon"><?php echo esc_html( get_woocommerce_currency_symbol() ); ?></span>
@@ -235,6 +247,8 @@ do_action( 'dokan_dashboard_wrap_before', $post, $post_id );
                                         </div><!-- .sale-schedule-container -->
                                     </div>
 
+                                    <?php do_action( 'dokan_product_edit_after_pricing', $post, $post_id ); ?>
+
                                     <?php if ( dokan_get_option( 'product_category_style', 'dokan_selling', 'single' ) == 'single' ): ?>
                                         <div class="dokan-form-group">
                                             <label for="product_cat" class="form-label"><?php esc_html_e( 'Category', 'dokan-lite' ); ?></label>
@@ -259,7 +273,7 @@ do_action( 'dokan_dashboard_wrap_before', $post, $post_id );
                                                 'class'            => 'product_cat dokan-form-control dokan-select2',
                                                 'exclude'          => '',
                                                 'selected'         => $product_cat,
-                                                'walker'           => new DokanCategoryWalker( $post_id )
+                                                'walker'           => new CategoryDropdownSingle( $post_id )
                                             );
 
                                             wp_dropdown_categories( apply_filters( 'dokan_product_cat_dropdown_args', $category_args ) );
@@ -287,7 +301,7 @@ do_action( 'dokan_dashboard_wrap_before', $post, $post_id );
                                                 'exclude'          => '',
                                                 'selected'         => $term,
                                                 'echo'             => 0,
-                                                'walker'           => new DokanTaxonomyWalker( $post_id )
+                                                'walker'           => new TaxonomyDropdown( $post_id )
                                             ) ) );
 
                                             echo str_replace( '<select', '<select data-placeholder="' . esc_html__( 'Select product category', 'dokan-lite' ) . '" multiple="multiple" ', $drop_down_category ); // phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
@@ -313,7 +327,7 @@ do_action( 'dokan_dashboard_wrap_before', $post, $post_id );
                                             'exclude'          => '',
                                             'selected'         => $selected,
                                             'echo'             => 0,
-                                            'walker'           => new DokanTaxonomyWalker( $post_id )
+                                            'walker'           => new TaxonomyDropdown( $post_id )
                                         ) );
 
                                         echo str_replace( '<select', '<select data-placeholder="' . esc_html__( 'Select product tags', 'dokan-lite' ) . '" multiple="multiple" ', $drop_down_tags ); // phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped

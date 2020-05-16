@@ -1,68 +1,216 @@
+ = v3.0.4 (May 15, 2020) =
+
+ - **Fix:** Rename google plus to google as google plus is deprecated #807
+ - **Fix:** Unable to set store trams and condition settings through REST API #808
+ - **Fix:** Vendor order email does not have the TAX details #809
+ - **Fix:** Withdraw request email is not send to admin #810
+ - **Fix:** Typo in backend add and edit vendor page #811
+ - **Fix:** On updating commission type in backend vendor dashboard, translated commission type is getting saved into database #814
+ - **Fix:** Store listing filter does not work when its saved as frontpage #815
+ - **Fix:** When a product is purchased with a price of more than 8 digit the calculation is wrong #819
+ - **Fix:** Caching issue on vendor's order listing page #821
+ - **Fix:** Filter out empty seller ids when a product is deleted `dokan_get_sellers_by` function #827
+ - **Fix:** Deduct PayPal gateway fee from vendor's earning #830
+ - **Feat:** Hide vendor info if admin wants to #829
+ - **Improvement:** Pass vendor id in dokan_get_seller_active_withdraw_methods hook #813
+
+= v3.0.3 (April 03, 2020) =
+
+ - **Fix:** Clear caches on product update #804
+ - **Fix:** Vendor is not receiving email for new order #803
+ - **Fix:** Remove weForms promotion from admin setup wizard #798
+
+= v3.0.2 (March 23, 2020) =
+
+ - **Fix:** Unable to remove attributes in vendor product edit page #637
+ - **Fix:** Feature image is not saving on quick edit
+ - **Fix:** Vendor image issue #769
+ - **Fix:** Set vendor eamil on new vendor creation #787
+ - **Fix:** Return content from shotcode instead of being outputting #752
+ - **Fix:** Map still showing on vendor dashabord settings page even if there is no API key
+ - **Fix:** Product type not saving when quick edit #767
+ - **Fix:** Render withdraw methods dynamically in setup wizard #771
+ - **Fix:** Show vendor email to admin and actual vendor #773
+ - **Fix:** Product type error in dokan_save_product function
+ - **Fix:** Admin is unable to see the setup wizard on new dokan installation when WooCommerce is not installed #783
+ - **Fix:** Add missing add_meta_query method in dokan REST API #788
+ - **Fix:** Only render map if api key is availabe in store settings page #774
+ - **Feat:** Add dokan_get_all_cap_labels function #781
+ - **Improvement:** Added group description to exporters and updated privacy policy guide to drop use of deprecated classes #755
+ - **Improvement:** dokan_get_shipping_processing_times function #785
+ - **Improvement:** Add filter on withdraw export csv args #786
+ - **Improvement:** Get correct product thumbnail size in vendor product list page #795
+
+= v3.0.1 (February 07, 2020) =
+
+ - **Fix:** Fixed yoast seo causing conflict issue in single store page
+ - **Fix:** Permission issue fixed for shop manager
+ - **Fix:** Handle sales price error if its greater than regular price or empty
+ - **Fix:** Change placholder text for filter by customer to registered customer
+
+= v3.0.0 (February 03, 2020) =
+
+ - **Fix:** Add mapbox option in dokan admin setup wizard
+ - **Fix:** Pass order object into woocommerce_order_item_{type}_html hook
+ - **Fix:** Allow vendor to update store terms and condition with REST API #714
+ - **Fix:** If show_email is truned off don't show the eamil in REST API response #748
+ - **Fix:** Remove space while generating user_name via dokan_generate_username function #749
+ - **Fix:** If a product is deleted and no vendor is found for that product display (no name) in backend order listing page #746
+ - **Improvement:** Store listing filter styles so that it works with almost any theme
+ - **Improvement:** Show notice in dokan admin setup wizard if minimum PHP version is not met for WooCommerce
+ - **Improvement:** If dokan pro doesn't exist but commmision type is found in database, ignore that saved commission type #746
+ - **Improvement:** Code quality and performance
+
+= v2.9.31 (January 14, 2020) =
+
+ - **Fix:** Add option to set dokan store listing page for rendering all stores
+
+= v2.9.30 (January 10, 2020) =
+
+ - **Feat:** Grid and List view for store listing page #712
+ - **Feat:** Store sorting options in store listing page #712
+ - **Feat:** Add Mapbox as Google map alternative
+ - **Feat:** Add Enfold theme support
+ - **Improvement:** dokan_get_vendor_by_product function so that it reruns vendor for product variation #726
+
+= v2.9.29 (December 26, 2019) =
+
+ - **Fix:** Don't show the admin setup wizard who ran the setup wizard before
+ - **Fix:** Remove non-ascii characters from some file names
+ - **Fix:** Dokan dashboard hamburger menu is not working fixed
+ - **Fix:** Downloadable product grunt and revoke access issue is fixed
+ - **Tweak:** Added privacy policy info in setup wizard for admin
+
+= v2.9.28 (December 19, 2019) =
+
+ - **Fix:** Sanitize and Escape data before saving and rendering #717
+ - **Improvement:** Add privacy policy in readme.
+
+= v2.9.27 (December 11, 2019) =
+
+ - **Feat:** Run Dokan Admin Setup Wizard without being WooCommerce installed #708
+ - **Improvement:** Remove empty div from vendor payment settings page #695
+ - **Improvement:** Deleting a attribute from predefined attributes and add the attribute again mess up attributes #703
+ - **Improvement:** Add hooks in order details and admin setup wizard #715
+ - **Improvement:*  Pass post_type as a second parameter to the months_dropdown_results hook #710
+
+= v2.9.26 (November 19, 2019) =
+
+ - **Feat:** Add option to hide out of stock products in best selling widget #697.
+ - **Improvement:** Make dokan add vendor UI consistent to WordPress UI #696.
+
+= v2.9.25 -> November 12, 2019 =
+-----------------------------------
+ - **Dev:** Add dokan backend settings input required field validation.
+ - **Improvement:** Dokan_Commission::prepare_for_calculation() method.
+
+v2.9.24 -> November 08, 2019
+-----------------------------------
+- **Fix:** Assets URL localization was creating a problem in frontend vendor shipping area, this has been fixed.
+- **Improvement:** Added a new filter `dokan_get_edit_product_url` to override the product edit URL.
+
+v2.9.23 -> November 07, 2019
+-----------------------------------
+-   **Feat:** Add REST API support for store contact form widget
+-   **Feat:** Add Vendor listing page in dokan backend
+-   **Feat:** Add vendor active inactive REST API
+-   **Fix:**  Increase refund table data length to allow more refund items
+-   **Fix:**  Withdraw threshold field disappears when commission type is selected in dokan settings
+-   **Fix:**  Order listing page shows the same orders when object cache is enabled
+-   **Fix:**  Best selling widgets warning in store sidebar
+-   **Fix:**  Save store name in vendor's user_meta so that store search form widget works correctly
+-   **Fix:**  If percent commission rate is not set while using combine commission calculation is not correct
+-   **Dev:**  Add filter to modify current page id in dokan_is_seller_dashboard function
+-   **Localization:** Store open and close notice placeholder strings remains untranslated
+
+v2.9.22 -> October 03, 2019
+-----------------------------------
+-   **fix:**   Remove duplicate inpute filed in dokan admin settings form
+-   **fix:**   Make commissison value to 0 if no product found
+-   **fix:**   Attribute value's are swapped after changing the order of the attributes
+
+v2.9.21 -> September 24, 2019
+-----------------------------------
+-   **fix:**   If state is not found for a country in store settings, remove the state field on reload
+-   **fix:**   Only show vendor's own uploaded media to a vendor.
+-   **fix:**   Add required attribute for various input field in dokan_post_input_box function.
+-   **fix:**   Calculate commission for item by quantity when the commission is set to flat.
+-   **Tweak:** Introduce Dokan_Commission class to calculate admin and vendor's commission.
+-   **Tweak:** Remove unnecessary placeholder in admin commission field.
+
+v2.9.20 -> August 23, 2019
+------------------------------------
+-   **Fix:**   Geolocation map settings value is not saving
+-   **Fix:**   Fix warning in vendor dashboard widget when seller setup wizard is not run
+-   **Fix:**   Store banner height in vendor settings page it not honouring the saved settings
+-   **Fix:**   Conflict with avada theme fution builder
+-   **Tweak:** Use WordPress backend date format while printing date in approved and cancelled withdraw request
+
 v2.9.19 -> July 29, 2019
 ------------------------------------
--   **Fix***    Split orders created from admin dashboard
--   **Fix***    Add on backorder in product stock management
--   **Fix***    Dokan dashboard menu returning 404 with the latest version of visual composer plugin
--   **Tweak***  Dokan admin settings rearrange
--   **Tweak***  Add compatibility with ultimate member plugin
--   **Tweak***  Add few hooks in product listing template
+-   **Fix:**    Split orders created from admin dashboard
+-   **Fix:**    Add on backorder in product stock management
+-   **Fix:**    Dokan dashboard menu returning 404 with the latest version of visual composer plugin
+-   **Tweak:**  Dokan admin settings rearrange
+-   **Tweak:**  Add compatibility with ultimate member plugin
+-   **Tweak:**  Add few hooks in product listing template
 
 v2.9.18 -> July 10, 2019
 ------------------------------------
--   **Feat***  Add google map type option field component
--   **Feat***  Add dokan_array_after helper function
--   **Fix***   Admin settings default value for multicheck field
--   **Tweek*** Remove unnecessary code and add hook after creating parent order
--   **Tweek*** Refactor dokan_get_vendor_by_product function and explicit error checking while using it
+-   **Feat:**  Add google map type option field component
+-   **Feat:**  Add dokan_array_after helper function
+-   **Fix:**   Admin settings default value for multicheck field
+-   **Tweek:** Remove unnecessary code and add hook after creating parent order
+-   **Tweek:** Refactor dokan_get_vendor_by_product function and explicit error checking while using it
 
 v2.9.17 -> June 13, 2019
 ------------------------------------
--   **Fix***   Remove unwanted code to fix conflict with yith plugin
--   **Tweak*** Dokan theme support and responsive menu
+-   **Fix:**   Remove unwanted code to fix conflict with yith plugin
+-   **Tweak:** Dokan theme support and responsive menu
 
 v2.9.16 -> June 11, 2019
 ------------------------------------
--   **Fix***   Hide hidden and out of stock products in vendor store page
--   **Fix***   A non-numeric value encountered warning in vendor product listing page, if product price is not given
--   **Fix***   Add failed order in vendor order listing page
--   **Fix***   Creating product from admin backend returns 2 instance of the product author
--   **Tweak*** Ensure dokan_get_seller_id_by_order filter is always taking effect
--   **Tweak*** Make dokan vendor dashboard responsive
--   **Tweak*** Show admin notice stating WooCommerce is required if not found on dokan installation
--   **Tweak*** Add hook after creating and updating object via dokan REST API
--   **Tweak*** Add dokan_ensure_vendor_coupon filter while ensuring vendor coupon restriction
--   **Tweak*** Add updater class to fix banner issue where store settings and listing template was overridden
--   **Tweak*** Add filter hook while fetching vendor products
--   **Tweak*** Add define method to define plugin constants
+-   **Fix:**   Hide hidden and out of stock products in vendor store page
+-   **Fix:**   A non-numeric value encountered warning in vendor product listing page, if product price is not given
+-   **Fix:**   Add failed order in vendor order listing page
+-   **Fix:**   Creating product from admin backend returns 2 instance of the product author
+-   **Tweak:** Ensure dokan_get_seller_id_by_order filter is always taking effect
+-   **Tweak:** Make dokan vendor dashboard responsive
+-   **Tweak:** Show admin notice stating WooCommerce is required if not found on dokan installation
+-   **Tweak:** Add hook after creating and updating object via dokan REST API
+-   **Tweak:** Add dokan_ensure_vendor_coupon filter while ensuring vendor coupon restriction
+-   **Tweak:** Add updater class to fix banner issue where store settings and listing template was overridden
+-   **Tweak:** Add filter hook while fetching vendor products
+-   **Tweak:** Add define method to define plugin constants
 
 v2.9.15 -> May 08, 2019
 ------------------------------------
--   **Fix***   Vendor banner is not showing in the backend edit user profile page
--   **Fix***   Add filter to allow or skip nonce checking while registering new user
--   **Tweak*** Update appsero SDK
+-   **Fix:**   Vendor banner is not showing in the backend edit user profile page
+-   **Fix:**   Add filter to allow or skip nonce checking while registering new user
+-   **Tweak:** Update appsero SDK
 
 v2.9.14 -> Apr 26, 2019
 ------------------------------------
--   **Fix***  Schedule product price not showing correctly
--   **Fix***  Backward compatibility for banner and store time
+-   **Fix:**  Schedule product price not showing correctly
+-   **Fix:**  Backward compatibility for banner and store time
 
 v2.9.13 -> Apr 24, 2019
 ------------------------------------
--   **New**   Include store open close functionality in Dokan REST API
--   **Fix***  Vendor order and edit account page is shows 404 not found
--   **Fix***  Vue list table pagination style
--   **Fix***  Product stock is not reducing while order is placed via REST API
--   **Fix***  Show notice if product SKU is not unique while updating product in vendor dashboard
--   **Fix***  Product attributes with different language other than english was rendering incorrectly
--   **Tweak** If customer billing or shipping address is not found, show not found message in vendor dashboard
--   **Tweak** Refactor Dokan_Vendor_Manager class
--   **Tweak** Rename store category widget to store product category
--   **Tweak** Replace get_woocommerce_term_meta with get_term_meta as it was deprecated
--   **Tweak** Add action hook in vendor migration template
--   **Tweak** Check if it's vendor's own product while updating from vendor dashboard
--   **Tweak** Use correct function to retrieve current vendor id
--   **Tweak** Make debounce module public available
--   **Tweak** Load dokan vendor dashboard template classes in the frontend only
+-   **New:**   Include store open close functionality in Dokan REST API
+-   **Fix:**  Vendor order and edit account page is shows 404 not found
+-   **Fix:**  Vue list table pagination style
+-   **Fix:**  Product stock is not reducing while order is placed via REST API
+-   **Fix:**  Show notice if product SKU is not unique while updating product in vendor dashboard
+-   **Fix:**  Product attributes with different language other than english was rendering incorrectly
+-   **Tweak:** If customer billing or shipping address is not found, show not found message in vendor dashboard
+-   **Tweak:** Refactor Dokan_Vendor_Manager class
+-   **Tweak:** Rename store category widget to store product category
+-   **Tweak:** Replace get_woocommerce_term_meta with get_term_meta as it was deprecated
+-   **Tweak:** Add action hook in vendor migration template
+-   **Tweak:** Check if it's vendor's own product while updating from vendor dashboard
+-   **Tweak:** Use correct function to retrieve current vendor id
+-   **Tweak:** Make debounce module public available
+-   **Tweak:** Load dokan vendor dashboard template classes in the frontend only
 
 v2.9.12 -> Mar 20, 2019
 ---------------------------

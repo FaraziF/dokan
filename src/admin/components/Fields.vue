@@ -1,5 +1,5 @@
 <template>
-    <tr :class="[id, `dokan-settings-field-type-${fieldData.type}`]">
+    <tr :class="[id, `dokan-settings-field-type-${fieldData.type}`]" v-if="shoudShow">
         <template v-if="'sub_section' === fieldData.type">
             <th colspan="2" class="dokan-settings-sub-section-title">
                 <label>{{ fieldData.label }}</label>
@@ -11,19 +11,73 @@
                 <label :for="sectionId + '[' + fieldData.name + ']'">{{ fieldData.label }}</label>
             </th>
             <td>
-                <input type="text" class="regular-text" :id="sectionId + '[' + fieldData.name + ']'" :name="sectionId + '[' + fieldData.name + ']'" v-model="fieldValue[fieldData.name]">
+                <input type="text"
+                    class="regular-text"
+                    :id="sectionId + '[' + fieldData.name + ']'"
+                    :name="sectionId + '[' + fieldData.name + ']'"
+                    v-model="fieldValue[fieldData.name]"
+                >
+                <p v-if="hasError( fieldData.name )" class="dokan-error">
+                    {{ getError( fieldData.label ) }}
+                </p>
                 <p class="description" v-html="fieldData.desc"></p>
             </td>
         </template>
 
-        <template v-if="'number' == fieldData.type">
+        <template v-if="'number' === fieldData.type && 'combine' === allSettingsValues.dokan_selling.commission_type && 'admin_percentage' !== fieldData.name">
             <th scope="row">
                 <label :for="sectionId + '[' + fieldData.name + ']'">{{ fieldData.label }}</label>
             </th>
             <td>
                 <input type="number" :min="fieldData.min" :max="fieldData.max" :step="fieldData.step" class="regular-text" :id="sectionId + '[' + fieldData.name + ']'" :name="sectionId + '[' + fieldData.name + ']'" v-model="fieldValue[fieldData.name]">
+                <p v-if="hasError( fieldData.name )" class="dokan-error">
+                    {{ getError( fieldData.label ) }}
+                </p>
                 <p class="description" v-html="fieldData.desc"></p>
             </td>
+        </template>
+
+        <template v-if="'number' == fieldData.type && allSettingsValues.dokan_selling && 'combine' !== allSettingsValues.dokan_selling.commission_type">
+            <th scope="row">
+                <label :for="sectionId + '[' + fieldData.name + ']'">{{ fieldData.label }}</label>
+            </th>
+            <td>
+                <input type="number" :min="fieldData.min" :max="fieldData.max" :step="fieldData.step" class="regular-text" :id="sectionId + '[' + fieldData.name + ']'" :name="sectionId + '[' + fieldData.name + ']'" v-model="fieldValue[fieldData.name]">
+                <p v-if="hasError( fieldData.name )" class="dokan-error">
+                    {{ getError( fieldData.label ) }}
+                </p>
+                <p class="description" v-html="fieldData.desc"></p>
+            </td>
+        </template>
+
+        <template v-if="'combine' == fieldData.type && haveCondition( fieldData ) && fieldData.condition.type == 'show' && checkConditionLogic( fieldData, fieldValue )">
+                <th scope="row">
+                    <label :for="sectionId + '[' + fieldData.name + ']'">{{ fieldData.label }}</label>
+                </th>
+
+                <td class="percent_fee">
+                    <input type="number" :min="fieldData.fields.min" :max="fieldData.fields.max" :step="fieldData.fields.step" class="regular-text" :id="sectionId + '[' + fieldData.name + ']' + '[' + 'percent_fee' + ']'" :name="sectionId + '[' + fieldData.fields.percent_fee.name + ']'" v-model="fieldValue[fieldData.fields.percent_fee.name]">
+                    {{ '%' }}
+                </td>
+
+                <td class="fixed_fee">
+                    {{ '+' }}
+                    <input type="number" :min="fieldData.fields.min" :max="fieldData.fields.max" :step="fieldData.fields.step" class="regular-text" :id="sectionId + '[' + fieldData.name + ']' + '[' + 'fixed_fee' + ']'" :name="sectionId + '[' + fieldData.fields.fixed_fee.name + ']'" v-model="fieldValue[fieldData.fields.fixed_fee.name]">
+                </td>
+
+                <p class="dokan-error combine-commission" v-if="hasError( fieldData.fields.percent_fee.name ) && hasError( fieldData.fields.fixed_fee.name )">
+                    {{ __( 'Both percentage and fixed fee is required.', 'dokan-lite' ) }}
+                </p>
+
+                <p v-else-if="hasError( fieldData.fields.percent_fee.name )" class="dokan-error combine-commission">
+                    {{ getError( fieldData.fields.percent_fee.label ) }}
+                </p>
+
+                <p v-else-if="hasError( fieldData.fields.fixed_fee.name )" class="dokan-error combine-commission">
+                    {{ getError( fieldData.fields.fixed_fee.label ) }}
+                </p>
+
+                <p class="description" v-html="fieldData.desc"></p>
         </template>
 
         <template v-if="'textarea' == fieldData.type">
@@ -32,6 +86,9 @@
             </th>
             <td>
                 <textarea type="textarea" :rows="fieldData.rows" :cols="fieldData.cols" class="regular-text" :id="sectionId + '[' + fieldData.name + ']'" :name="sectionId + '[' + fieldData.name + ']'" v-model="fieldValue[fieldData.name]"></textarea>
+                <p v-if="hasError( fieldData.name )" class="dokan-error">
+                    {{ getError( fieldData.label ) }}
+                </p>
                 <p class="description" v-html="fieldData.desc"></p>
             </td>
         </template>
@@ -95,6 +152,9 @@
             <td>
                 <input type="text" class="regular-text wpsa-url" :id="sectionId + '[' + fieldData.name + ']'" :name="sectionId + '[' + fieldData.name + ']'" v-model="fieldValue[fieldData.name]">
                 <input type="button" class="button wpsa-browse" value="Choose File" v-on:click.prevent="$emit( 'openMedia', { sectionId: sectionId, name: fieldData.name }, $event )">
+                <p v-if="hasError( fieldData.name )" class="dokan-error">
+                    {{ getError( fieldData.label ) }}
+                </p>
                 <p class="description" v-html="fieldData.desc"></p>
             </td>
         </template>
@@ -105,6 +165,9 @@
             </th>
             <td>
                 <color-picker v-model="fieldValue[fieldData.name]"></color-picker>
+                <p v-if="hasError( fieldData.name )" class="dokan-error">
+                    {{ getError( fieldData.label ) }}
+                </p>
                 <p class="description" v-html="fieldData.desc"></p>
             </td>
         </template>
@@ -114,6 +177,9 @@
                 <label :for="sectionId + '[' + fieldData.name + ']'">{{ fieldData.label }}</label>
             </th>
             <td>
+                <p v-if="hasError( fieldData.name )" class="dokan-error">
+                    {{ getError( fieldData.label ) }}
+                </p>
                 <p class="description" v-html="fieldData.desc"></p>
             </td>
         </template>
@@ -122,7 +188,7 @@
             <th scope="row">
                 <label :for="sectionId + '[' + fieldData.name + ']'">{{ fieldData.label }}</label>
             </th>
-            <td>
+            <td class="dokan-settings-field-type-radio">
                 <fieldset>
                     <template v-for="( optionVal, optionKey ) in fieldData.options">
                         <label :for="sectionId + '[' + fieldData.name + '][' + optionKey + ']'">
@@ -182,14 +248,33 @@
                 </div>
             </td>
         </template>
-        <template v-if="'gmap' == fieldData.type">
+
+        <template v-if="'gmap' == fieldData.type && ! hideMap">
             <th scope="row">
                 <label :for="sectionId + '[' + fieldData.name + ']'">{{ fieldData.label }}</label>
             </th>
 
             <td>
-                <input type="hidden" :name="sectionId + '[' + fieldData.name + ']'" :value="Object.assign( fieldValue[fieldData.name], gmapData )">
-                <gmap @updateGmap="updateGmapData" :gmapKey="getGmapApiKey()" :location="getMapLocation( fieldValue[fieldData.name] )" />
+                <input type="hidden" :name="sectionId + '[' + fieldData.name + ']'" :value="mapLocation">
+                <Mapbox
+                    v-if="mapApiSource === 'mapbox'"
+                    @hideMap="onHideMap"
+                    @updateMap="onUpdateMap"
+                    :accessToken="mapboxAccessToken"
+                    :location="mapLocation"
+                    width="100%"
+                    height="300px"
+                />
+                <GoogleMaps
+                    v-else
+                    @hideMap="onHideMap"
+                    @updateMap="onUpdateMap"
+                    :apiKey="googleMapApiKey"
+                    :location="mapLocation"
+                />
+                <p v-if="hasError( fieldData.name )" class="dokan-error">
+                    {{ getError( fieldData.label ) }}
+                </p>
                 <p class="description" v-html="fieldData.desc"></p>
             </td>
         </template>
@@ -199,7 +284,8 @@
 <script>
     import colorPicker from "admin/components/ColorPicker.vue";
     let TextEditor = dokan_get_lib('TextEditor');
-    let Gmap = dokan_get_lib('Gmap');
+    let GoogleMaps = dokan_get_lib('GoogleMaps');
+    let Mapbox = dokan_get_lib('Mapbox');
 
     export default {
         name: 'Fields',
@@ -207,17 +293,111 @@
         components: {
             colorPicker,
             TextEditor,
-            Gmap
+            GoogleMaps,
+            Mapbox,
         },
+
+        props: ['id', 'fieldData', 'sectionId', 'fieldValue', 'allSettingsValues', 'errors'],
 
         data() {
             return {
                 repeatableItem: {},
-                gmapData: {}
+                hideMap: false,
             }
         },
 
-        props: ['id', 'fieldData', 'sectionId', 'fieldValue', 'allSettingsValues'],
+        computed: {
+            shoudShow() {
+                let shoudShow = true;
+
+                if ( this.fieldData.show_if ) {
+                    const conditions = this.fieldData.show_if;
+                    const dependencies = Object.keys( conditions );
+
+                    let i = 0;
+
+                    for ( i = 0; i < dependencies.length; i++ ) {
+                        const dependency = dependencies[i];
+                        const [ optionId, sectionId = this.sectionId ] = dependency.split( '.' ).reverse();
+                        const dependencyValue = this.allSettingsValues[ sectionId ][ optionId ];
+                        const [ operator, value ] = _.chain( conditions[ dependency ] ).pairs().first().value();
+
+                        switch ( operator ) {
+                            case 'greater_than':
+                                if ( ! (dependencyValue > value ) ) {
+                                    shoudShow = false;
+                                }
+                                break;
+
+                            case 'greater_than_equal':
+                                if ( ! (dependencyValue >= value ) ) {
+                                    shoudShow = false;
+                                }
+                                break;
+
+                            case 'less_than':
+                                if ( ! (dependencyValue < value ) ) {
+                                    shoudShow = false;
+                                }
+                                break;
+
+                            case 'less_than':
+                                if ( ! (dependencyValue <= value ) ) {
+                                    shoudShow = false;
+                                }
+                                break;
+
+                            case 'equal':
+                            default:
+                                if ( dependencyValue != value ) {
+                                    shoudShow = false;
+                                }
+                                break;
+                        }
+
+                        if ( ! shoudShow ) {
+                            break;
+                        }
+                    }
+                }
+
+                return shoudShow;
+            },
+
+            mapApiSource() {
+                return this.allSettingsValues?.dokan_appearance?.map_api_source;
+            },
+
+            mapLocation() {
+                let location = {
+                    ...{
+                        latitude: 23.709921,
+                        longitude: 90.40714300000002,
+                        address: 'Dhaka',
+                        zoom: 10
+                    },
+
+                    ...this.fieldValue[ this.fieldData.name ],
+                };
+
+                location = {
+                    latitude: parseFloat( location.latitude ),
+                    longitude: parseFloat( location.longitude ),
+                    address: `${location.address}`,
+                    zoom: parseInt( location.zoom ),
+                };
+
+                return location;
+            },
+
+            googleMapApiKey() {
+                return this.allSettingsValues?.dokan_appearance?.gmap_api_key;
+            },
+
+            mapboxAccessToken() {
+                return this.allSettingsValues?.dokan_appearance?.mapbox_access_token;
+            }
+        },
 
         beforeMount() {
             if ( 'multicheck' === this.fieldData.type && ! this.fieldValue[ this.fieldData.name ] ) {
@@ -249,26 +429,50 @@
                 this.fieldValue[name].splice( optionVal, 1 );
             },
 
-            getMapLocation(savedLocation) {
-                return {
-                    latitude: savedLocation.latitude ? savedLocation.latitude : 23.709921,
-                    longitude: savedLocation.longitude ? savedLocation.longitude: 90.40714300000002,
-                    address: savedLocation.address ? savedLocation.address : 'Dhaka',
-                    zoom: 10
+            haveCondition( fieldData ) {
+                return fieldData.hasOwnProperty( 'condition' );
+            },
+
+            checkConditionLogic( fieldData, fieldValue ) {
+                var logic = fieldData.condition.logic;
+                var isValid = false;
+
+                _.each( logic, function( value, key ) {
+                    if ( _.contains( value, fieldValue[key] ) ) {
+                        isValid = true;
+                    }
+                } );
+
+                return isValid;
+            },
+
+            onHideMap( hideMap ) {
+                this.hideMap = hideMap;
+            },
+
+            onUpdateMap( payload ) {
+                this.fieldValue[this.fieldData.name] = { ...this.mapLocation, ...payload };
+            },
+
+            hasError( key ) {
+                let errors = this.errors;
+
+                if ( ! errors || typeof errors === 'undefined' ) {
+                    return false;
+                }
+
+                if ( errors.length < 1 ) {
+                    return false;
+                }
+
+                if ( errors.includes( key ) ) {
+                    return key;
                 }
             },
 
-            updateGmapData( payload ) {
-                this.gmapData = payload;
+            getError( label ) {
+                return label + ' ' + this.__( 'is required.', 'dokan-lite' )
             },
-
-            getGmapApiKey() {
-                let settings = this.allSettingsValues;
-
-                if ( 'dokan_general' in settings && 'gmap_api_key' in settings.dokan_general  ) {
-                    return settings.dokan_general.gmap_api_key
-                }
-            }
         }
 
     };
@@ -283,7 +487,6 @@
         padding-top: 0px;
         cursor: pointer;
     }
-
     .dokan-repetable-add-item-btn {
         font-size: 16px !important;
         font-weight: bold !important;
@@ -291,4 +494,34 @@
         line-height: 22px !important;
     }
 
+    td.percent_fee, td.fixed_fee {
+        display: inline-block;
+    }
+    td.percent_fee input, td.fixed_fee input {
+        width: 60px;
+    }
+    tr.additional_fee .description {
+        margin-left: 10px;
+        margin-top: -10px;
+    }
+    .dokan-error {
+        color: red;
+        margin-top: -10px;
+        font-style: italic;
+    }
+    .dokan-error.combine-commission {
+        margin-left: 10px;
+    }
+    .dokan-settings-field-type-radio {
+
+        fieldset {
+            & > label:not(:last-child) {
+                margin-right: 12px !important;
+
+                & > input[type="radio"] {
+                    margin-right: 2px;
+                }
+            }
+        }
+    }
 </style>

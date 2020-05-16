@@ -629,7 +629,7 @@ export default {
                 },
                 {
                     "title": "WC Booking Integration",
-                    "url": "https:\/\/wedevs.com\/dokan\/modules\/woocommerce-booking-integration\/",
+                    "url": "https:\/\/wedevs.com\/dokan\/extensions\/woocommerce-booking-integration\/",
                     "starter" : {
                         "type": "icon",
                         "value" : dokan.urls.assetsUrl + '/images/premium/unavailable@2x.png'
@@ -890,7 +890,7 @@ export default {
                 {
                     "name": "Cédric Lefrancq",
                     "designation": "Webmaster, Unwebmaster.Be",
-                    "pic": dokan.urls.assetsUrl + '/images/premium/Cédric-Lefrancq.jpeg',
+                    "pic": dokan.urls.assetsUrl + '/images/premium/cedric-lefrancq.jpeg',
                     "content": "The support is very good. The plugin is perfect. Bugs are fixed very quickly. That’s a very good plugin."
                 },
                 {

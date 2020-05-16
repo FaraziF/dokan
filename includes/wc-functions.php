@@ -114,12 +114,9 @@ function dokan_process_product_meta( $post_id, $data = [] ) {
 
     if ( isset( $data['attribute_names'] ) && is_array( $data['attribute_names'] ) && isset( $data['attribute_values'] ) && is_array( $data['attribute_values'] ) ) {
         $attribute_names  = array_map( 'wc_clean', $data['attribute_names'] );
-
-        $attribute_values = array();
-
-        foreach ( $data['attribute_values'] as $values ) {
-            $attribute_values[] = $values;
-        }
+        $attribute_values = array_map( function( $value ) {
+            return $value;
+        }, $data['attribute_values'] );
 
         if ( isset( $data['attribute_visibility'] ) ) {
             $attribute_visibility = array_map( 'absint' , $data['attribute_visibility'] );
@@ -567,8 +564,7 @@ function dokan_get_latest_products( $per_page = 9, $seller_id = '', $page = 1 ) 
  * @param int $per_page
  * @return \WP_Query
  */
-function dokan_get_best_selling_products( $per_page = 8, $seller_id = '', $page = 1 ) {
-
+function dokan_get_best_selling_products( $per_page = 8, $seller_id = '', $page = 1, $hide_outofstock = false ) {
     $args = array(
         'post_type'           => 'product',
         'post_status'         => 'publish',
@@ -579,6 +575,16 @@ function dokan_get_best_selling_products( $per_page = 8, $seller_id = '', $page 
 
     if ( ! empty( $seller_id ) ) {
         $args['author'] = (int) $seller_id;
+    }
+
+    if ( $hide_outofstock ) {
+        $args['meta_query'] = [
+            [
+                'key'     => '_stock_status',
+                'value'   => 'outofstock',
+                'compare' => '!='
+            ]
+        ];
     }
 
     return dokan()->product->best_selling( apply_filters( 'dokan_best_selling_query', $args ) );
@@ -819,7 +825,7 @@ function dokan_filter_woocommerce_dashboard_status_widget_sales_query( $query ) 
  */
 function dokan_save_account_details() {
 
-    $_server = isset( $_SERVER['REQUEST_METHOD'] ) ? $_SERVER['REQUEST_METHOD'] : '';
+    $_server = isset( $_SERVER['REQUEST_METHOD'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_METHOD'] ) ) : '';
 
     if ( 'POST' !== strtoupper( $_server ) ) {
         return;
