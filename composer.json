@@ -22,7 +22,8 @@
     "codeception/module-db": "^1.0",
     "codeception/module-filesystem": "^1.0",
     "codeception/module-cli": "^1.0",
-    "phpunit/phpunit": "9.1"
+    "phpunit/phpunit": "9.1",
+    "dealerdirect/phpcodesniffer-composer-installer": "^0.4.3"
   },
   "autoload" : {
     "psr-4": {

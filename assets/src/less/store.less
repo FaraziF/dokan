@@ -37,6 +37,12 @@
             .profile-info-img {
                 width: 100%;
                 height: auto;
+
+                &.dummy-image {
+                    background-image: url(../images/default-store-banner.png);
+                    background-size: 100% 100%;
+                    background-repeat: no-repeat;
+                }
             }
 
             .profile-info-summery-wrapper {
@@ -557,6 +563,10 @@
                 position: relative;
                 padding: 15px 20px;
                 border-top: 1px solid #eee;
+
+                a {
+                    text-decoration: none;
+                }
 
                 .seller-avatar {
                     padding: 6px;
