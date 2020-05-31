@@ -434,6 +434,7 @@ if (false) {
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["a"] = ({
     name: 'App'
@@ -2698,6 +2699,8 @@ var render = function() {
     "div",
     { attrs: { id: "vue-backend-app" } },
     [
+      _vm._m(0),
+      _vm._v(" "),
       _c("router-view"),
       _vm._v(" "),
       _c("notifications", { attrs: { position: "bottom right" } })
@@ -2705,7 +2708,18 @@ var render = function() {
     1
   )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h1", [
+      _vm._v("@todo: Add updater file "),
+      _c("code", [_vm._v("upgrades/dokan-upgrade-next.php")]),
+      _vm._v(" before release")
+    ])
+  }
+]
 render._withStripped = true
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);
