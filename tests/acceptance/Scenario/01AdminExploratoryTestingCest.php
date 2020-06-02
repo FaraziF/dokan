@@ -15,9 +15,13 @@ class AdminExploratoryTestingCest
     	$I->click('Dokan');
     	   $I->waitForElementVisible('.widgets-wrapper', 30);
            $I->checkError();
+           $I->see('At a Glance');
+           $I->see('Overview');
+           $I->see('Dokan News Updates');
         $I->click('Modules');
             $I->waitForElementVisible('.module-content', 30);
             $I->checkError();
+            // $I->seeElement('.displaying-num','26 items');
         // Activate all modules
             $I->click('#view-switch-list');
             $I->wait(5);
@@ -31,9 +35,12 @@ class AdminExploratoryTestingCest
     	$I->click('Vendors');
             $I->waitForElementVisible('.vendor-list', 30);
             $I->checkError();
+            // $I->see('Add New');
+            // $I->seeElement('#post-search-input');
     	$I->click('Abuse Reports');
             $I->waitForElementVisible('#vue-backend-app', 30);
             $I->checkError();
+            // $I->seeElement('//div[@class="tablenav top"]');
     	$I->amOnPage('/wp-admin/admin.php?page=dokan#/store-reviews');
     	// $I->click('//li[@id="toplevel_page_dokan"]/ul/li[6]/a','Store Reviews');
     	// $I->waitForElement('.dokan-store-reviews', 30);
