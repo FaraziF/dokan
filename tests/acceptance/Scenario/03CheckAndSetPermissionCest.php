@@ -31,8 +31,10 @@ class checkPermmissionCest
             $I->selectOption('#bulk-action-selector-top','Deactivate');
             $I->click('Apply');
             $I->wait(5);
-    	$I->click('Settings');
-    	$I->wait(5);
+        $I->amOnPage('/wp-admin/admin.php?page=dokan#/settings');
+        $I->waitForElementVisible('#dokan_general', 30);
+    	// $I->click('Settings');
+    	// $I->wait(10);
         // Select commission type and insert admin commission
             $I->click(['link' => 'Selling Options']);
             $I->selectOption('#dokan_selling[commission_type]', 'Flat');

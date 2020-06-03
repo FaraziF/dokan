@@ -27,7 +27,9 @@ class VendorRegistrationCest
       $I->fillField(Vendor::$phoneNumber,  randomGenerate()->phoneNumber);
       $I->click(Vendor::$registrationButton);
       // $I->grabTextFrom(Vendor::$welcomeMessage, 'Welcome to the Marketplace!');
-      $I->click(Vendor::$ignoreWizard);
+      // $I->click(Vendor::$ignoreWizard);
+      $I->see('Welcome to the Marketplace!');
+      $I->click('Not right now');
       $I->wait(5);
       $I->seeInCurrentUrl('/dashboard');
     }

@@ -113,8 +113,12 @@ class MultiSteps extends \AcceptanceTester
 			$I->fillField('#billing_city', randomGenerate()->city);
 			$I->fillField('#billing_phone', randomGenerate()->tollFreePhoneNumber);
 			$I->fillField('#billing_email', randomGenerate()->email);
-		$I->wait(5);
-		$I->click('//div[@id="payment"]/div/button');
+		// $I->waitForElementVisible('checkout', 30);
+		// $I->wait(10);
+		// $I->see('Place order');
+		// $I->click('//div[@id="payment"]/div/button');
+		// // $I->click('Place order');
+		// $I->wait(5);
 		$I->waitForText('Thank you. Your order has been received.', 30, '.woocommerce-order');
 		$I->see('Thank you. Your order has been received.');
 

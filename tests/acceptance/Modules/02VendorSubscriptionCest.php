@@ -78,7 +78,8 @@ class VendorSubscriptionCest
         $I->wait(5);
         $I->click(['css' => '.product_pack_item:nth-child(1) .dokan-btn']);
         $I->wait(3);
-        //Form Field
+        //Fillup Form Field
+        
         $I->click('//*[@id="place_order"]');
         $I->dontSee('.woocommerce-NoticeGroup.woocommerce-NoticeGroup-checkout');
         $I->wait(5);

@@ -14,7 +14,7 @@ class AddNewProductCest
     {
       $I->loginAsAdmin();
       $I->amOnPage($adminCreate::$URL);
-      $adminCreate->category('Electronics');
+      $adminCreate->category('Food');
     }
     // Multiple Vendor Add New Product
     public function addNewProduct(\Step\Acceptance\MultiSteps $I,
@@ -23,12 +23,12 @@ class AddNewProductCest
     {
       // Vendor Two Add new product
         $I->loginAsVendorTwo();
-        $product->create('Watch','450','Electronics');
+        $product->create('Burger','450','Food');
         $I->waitForText('Edit Product', 30);
         $I->click('Log out');
       // Vendor One Add New product
         $I->loginAsVendor();
-        $product->create('Green Watch','250','Electronics');
+        $product->create('Pizza','250','Food');
         $I->waitForText('Edit Product', 30);
 
     }
