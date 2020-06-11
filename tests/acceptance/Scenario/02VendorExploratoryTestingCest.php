@@ -17,7 +17,7 @@ class VendorExploratoryTestingCest
     	$I->seeInCurrentUrl('/dashboard');
     		$I->waitForElementVisible('.dashboard-content-area', 30);
     		$I->checkError();
-    	$I->click('Products');
+    	/*$I->click('Products');
     		$I->waitForElementVisible('.dokan-product-listing-area', 30);
     		$I->checkError();
     	// $I->click('Orders');
@@ -54,7 +54,7 @@ class VendorExploratoryTestingCest
     		$I->checkError();
 		$I->click('Subscription');
 			$I->waitForElementVisible('.dokan-dashboard-content', 30);
-			$I->checkError();
+			$I->checkError();*/
 		// $I->click('Analytics');
 		// $I->waitForElement('.dokan-reports-area', 30);
 		$I->click('Tools');
@@ -63,7 +63,7 @@ class VendorExploratoryTestingCest
 				$I->click('Export');
 				$I->waitForElementVisible('#post-5', 30);
 				$I->checkError();
-		$I->click('Support');
+		$I->click('.support');
 			$I->waitForElementVisible('.dokan-support-topics-list', 30);
 			$I->checkError();
 		$I->click('Settings');

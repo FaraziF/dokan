@@ -134,8 +134,8 @@ class AdminExploratoryTestingCest
         $I->click('Product Subscription');
             $I->waitForElementVisible('#dokan_product_subscription', 30);
             $I->checkError();
-        $I->click('Vendor Analytics');
+        /*$I->click('Vendor Analytics');
             $I->waitForElementVisible('#dokan_vendor_analytics', 30);
-            $I->checkError();
+            $I->checkError();*/
     }
 }

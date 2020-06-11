@@ -21,7 +21,7 @@ class checkPermmissionCest
             $I->click('//input[@id="submit"]');
             $I->waitForElement('#setting-error-settings_updated', 30);
         // Disable all modules
-            $I->click('Dokan');
+            /*$I->click('Dokan');
             $I->click('Dokan');
             $I->wait(3);
             $I->click('Modules');
@@ -30,7 +30,7 @@ class checkPermmissionCest
             $I->click('//input[@type="checkbox"]');
             $I->selectOption('#bulk-action-selector-top','Deactivate');
             $I->click('Apply');
-            $I->wait(5);
+            $I->wait(5);*/
         $I->amOnPage('/wp-admin/admin.php?page=dokan#/settings');
         $I->waitForElementVisible('#dokan_general', 30);
     	// $I->click('Settings');

@@ -16,8 +16,8 @@ class MultiSteps extends \AcceptanceTester
 	public function loginAsVendor()
 	{
 		$I = $this;
-		$I->amOnPage('/');
-        $I->click('Log in');
+		$I->amOnPage('/my-account/');
+        // $I->click('Log in');
         $I->fillField('username', 'vendor-one');
         $I->fillField('password', '123456');
         $I->click('login');
@@ -59,7 +59,9 @@ class MultiSteps extends \AcceptanceTester
   		//  $I->click('//div[@id="dokan-content"]/div[3]/ul/li/a/img');
   		// $I->click('//button[@name="add-to-cart"]');
 		$I->click('Shop');
-        $I->selectOption('//select[@name="orderby"]','Sort by latest');
+		$I->amOnPage('/dokan/shop/?orderby=date');
+        // $I->selectOption('//select[@name="orderby"]','Sort by latest');
+        // $I->selectOption('//form[2]/select', 'Sort by latest');
         $I->wait(5);
         $I->click('//main[@id="main"]/ul/li/a/img');
 	}
@@ -67,8 +69,10 @@ class MultiSteps extends \AcceptanceTester
 	{
 		$I = $this;
 		$I->click('Shop');
-        $I->selectOption('//select[@name="orderby"]','Sort by latest');
-        $I->wait(5);
+        // $I->selectOption('//select[@name="orderby"]','Sort by latest');
+        // $I->selectOption('//form[2]/select', 'Sort by latest');
+        // $I->wait(5);
+        $I->amOnPage('/dokan/shop/?orderby=date');
         $I->click('//main[@id="main"]/ul/li/a/img');
 		// $I->amOnPage('store-listing/');
 		// 	$I->click(['css' => '.dokan-single-seller:nth-child(1) .store-content a']);
