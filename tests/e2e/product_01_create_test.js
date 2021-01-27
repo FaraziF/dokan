@@ -6,7 +6,7 @@ Feature('Add product Functionality');
 
 Scenario('Vendor Add New Product', ({ I }) => {
     // I.loginAsVendor();
-    I.loginAsVendor();
+    I.loginAsVendorTwo();
     I.amOnPage('/dashboard/products/');
     I.click('Add new product');
      // pause();
@@ -22,15 +22,15 @@ Scenario('Vendor Add New Product', ({ I }) => {
         // I.click('//*[@id="__attachments-view-119"]/li[3]');
         // I.click('Add to gallery');
         //End gallery script
-    I.fillField('post_title','Green Cap 20');
+    I.fillField('post_title','Green Cap 2');
     I.fillField('_regular_price','300');
     I.fillField('_sale_price','250');
     I.click('Schedule');
     I.fillField('_sale_price_dates_from','2020-06-01');
     I.fillField('_sale_price_dates_to','2020-12-30');
     I.wait(2);
-    I.attachFile('.dokan-feat-image-btn', '/data/images.jpeg');
-    I.selectOption('#product_cat', 'c1');
+    // I.attachFile('.dokan-feat-image-btn', '/data/images.jpeg');
+    I.selectOption('#product_cat', 'Uncategorized');
     I.click('#dokan-create-new-product-btn');
     I.see('Edit Product');
     I.see('View Product');

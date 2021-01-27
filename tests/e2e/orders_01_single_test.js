@@ -1,6 +1,6 @@
 Feature('Single orders Functionality');
 
-Scenario('Customer single Order', (I) => {
+Scenario('Customer single Order', ({ I }) => {
     I.loginAsCustomer();
     I.viewSingleProduct();
     I.placeOrder();

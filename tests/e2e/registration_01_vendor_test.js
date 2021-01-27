@@ -16,6 +16,7 @@ Scenario('test something', ({ I }) => {
     I.click('Register');
     // I.see('Welcome to the Marketplace!', '.wc-setup-content');
     // I.click('Not right now');
+    // I.click('/html/body/div[1]/p[3]/a[2]');
     I.seeInCurrentUrl('/dashboard/');
 });
 

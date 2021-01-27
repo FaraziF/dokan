@@ -2,14 +2,15 @@ Feature('explore Backend Functionality');
 
 Scenario('test something', ({ I }) => {
     I.loginAsAdmin();
-I.amOnPage('/wp-admin');
+I.amOnPage('/wp-admin/');
 I.click('Dokan');
     I.waitForElement('.widgets-wrapper');
     I.checkError();
     I.see('At a Glance');
     I.see('Overview');
     I.see('Dokan News Updates');
-    I.click('Modules');
+I.click('Modules');
+        I.checkError();
            // I.waitForElement('.module-content');
            // checkError();
             // I.seeElement('.displaying-num','26 items');
@@ -29,12 +30,12 @@ I.click('Withdraw');
             I.waitForElement('#vue-backend-app');
             I.checkError();
             // I.seeElement('//div[@class="tablenav top"]');
-    	   I.amOnPage('/wp-admin/admin.php?page=dokan#/store-reviews');
+    	   I.amOnPage('/wp-admin/admin.php?page=dokan#/store-reviews/');
     	// I.click('//li[@id="toplevel_page_dokan"]/ul/li[6]/a','Store Reviews');
     	// I.waitForElement('.dokan-store-reviews');
             I.waitForElement('.dokan-store-reviews');
             I.checkError();
-    	I.click('Announcements');
+I.click('Announcements');
             I.waitForElement('.dokan-announcement-wrapper');
             I.checkError();
     	I.click('Refunds');
@@ -125,11 +126,12 @@ I.click('Withdraw');
         /*I.click('Vendor Analytics');
             I.waitForElement('#dokan_vendor_analytics');
             checkError();*/
-           I.amOnPage('/wp-admin/admin.php?page=dokan#/settings');
+           I.amOnPage('/wp-admin/admin.php?page=dokan#/settings/');
         //     I.click('(//a[contains(text(),"General")])[2]');
-            // I.scrollPageToTop();
+            I.scrollPageToTop();
             // I.click('General');
             I.click('(//a[contains(text(),"General")])[2]');
+
             I.selectOption('dokan_general[store_category_type]','multiple');
             I.click('Save Changes');
             I.see('Setting has been saved successfully.');
@@ -144,7 +146,7 @@ I.click('Withdraw');
             I.see('Bulk Actions')
             I.see('s');
             I.wait(5);
-            I.amOnPage('/wp-admin/admin.php?page=dokan#/settings');
+            I.amOnPage('/wp-admin/admin.php?page=dokan#/settings/');
             I.click('Withdraw Options');
             // I.checkOption('PayPal');
             I.checkOption('Bank Transfer');

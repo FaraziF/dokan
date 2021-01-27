@@ -13,7 +13,7 @@ Scenario('Admin settings', ({ I }) => {
     I.click('Add Widget');
 
 });
-Scenario('Admin settings', ({ I }) => {
+Scenario('Customer Perspectives', ({ I }) => {
 	I.loginAsCustomer();
 	I.click('//input[@name="s"]');
 	I.fillField('//input[@name="s"]','white Dress');

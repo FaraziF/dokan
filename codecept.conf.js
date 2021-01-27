@@ -9,10 +9,22 @@ exports.config = {
   output: './output',
   helpers: {
     WebDriver: {
-      url: 'https://dokan.ajaira.website/',
+      // url: 'https://pm.ajaira.website/',
+      url: 'http://localhost:10023/',
+      // url: 'http://localhost:10003/',
       browser: 'chrome',
-      waitForTimeout: 5000, // wait for 5 seconds, by default it's wait 1 sec
-      smartWait: 5000
+      // waitForTimeout: 5000, // wait for 5 seconds, by default it's wait 1 sec
+      // smartWait: 5000
+      windowSize: '1200x1280',
+      timeouts: {
+         "script": 60000,
+         "page load": 10000
+       },
+        desiredCapabilities: {
+        chromeOptions: {
+          args: [ "--headless", "--disable-gpu", "--no-sandbox" ]
+        }
+      },
     }
   },
   include: {

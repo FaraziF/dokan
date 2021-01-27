@@ -13,10 +13,10 @@ module.exports = function() {
         this.dontSee('Notice:');
       },
     loginAsAdmin: function () {
-      this.amOnPage('/wp-admin');
+      this.amOnPage('/wp-admin/');
       //this.click('Log in');
       this.fillField('#user_login', 'admin');
-      this.fillField('#user_pass', 'admin');
+      this.fillField('#user_pass', '!!@@1122qq');
       this.click('Log In');
     },
     loginAsVendor: function () {
@@ -27,8 +27,8 @@ module.exports = function() {
         this.click('login');
     },
     loginAsVendorTwo: function () {
-      this.amOnPage('/');
-        this.click('Log in');
+      this.amOnPage('/my-account/');
+        // this.click('Log in');
         this.fillField('username', 'vendor-two');
         this.fillField('password', '123456');
         this.click('login');
